@@ -71,9 +71,7 @@ class ClientServiceImplTest {
         when(clientRepository.existsByIdentificationAndStatusIsTrue(clientCreateDTO.getIdentification())).thenReturn(true);
         when(messageService.getMessage("identification.already.exist")).thenReturn("Identification already registered.");
 
-        BadRequestException exception = assertThrows(BadRequestException.class, () -> {
-            clientService.createClient(clientCreateDTO);
-        });
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> clientService.createClient(clientCreateDTO));
         assertEquals("Identification already registered.", exception.getMessage());
 
 
@@ -96,9 +94,7 @@ class ClientServiceImplTest {
         when(clientRepository.existsByClientIdAndStatusIsTrue(client.getClientId())).thenReturn(true);
         when(messageService.getMessage("client.id.already.exist")).thenReturn("ClientId already registered.");
 
-        BadRequestException exception = assertThrows(BadRequestException.class, () -> {
-            clientService.createClient(clientCreateDTO);
-        });
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> clientService.createClient(clientCreateDTO));
         assertEquals("ClientId already registered.", exception.getMessage());
 
     }

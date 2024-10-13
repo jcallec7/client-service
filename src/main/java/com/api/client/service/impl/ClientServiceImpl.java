@@ -114,7 +114,7 @@ public class ClientServiceImpl implements ClientService {
                 Object[] params = {key};
                 throw new NotFoundException(messageService.getMessageWithParams("field.not.found", params));
             }
-        };
+        }
 
         clientRepository.save(client);
 
