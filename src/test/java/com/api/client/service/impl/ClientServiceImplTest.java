@@ -38,7 +38,7 @@ class ClientServiceImplTest {
 
 
     @Test
-    void createClientSuccessfully() {
+    void createClientSuccessfully() throws IllegalAccessException {
 
         ClientCreateDTO clientCreateDTO = new ClientCreateDTO();
         clientCreateDTO.setIdentification(faker.number().digits(10));

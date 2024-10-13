@@ -6,7 +6,7 @@ import com.api.client.dto.ClientResponseDTO;
 import com.api.client.dto.ClientUpdateDTO;
 
 public interface ClientService {
-    ClientResponseDTO createClient(ClientCreateDTO clientCreateDTO);
+    ClientResponseDTO createClient(ClientCreateDTO clientCreateDTO) throws IllegalAccessException;
     ClientResponseDTO getClientById(Long id);
     ClientResponseDTO updateClient(Long id, ClientUpdateDTO updateClientDto) throws IllegalAccessException;
     ApiResponseDTO deleteClient(Long id) throws IllegalAccessException;

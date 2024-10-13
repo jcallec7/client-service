@@ -10,6 +10,7 @@ import com.api.client.model.Client;
 import com.api.client.repository.ClientRepository;
 import com.api.client.service.ClientService;
 import com.api.client.service.MessageService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -31,10 +32,21 @@ public class ClientServiceImpl implements ClientService {
     private final MessageService messageService;
     private final PasswordEncoder passwordEncoder;
 
-    public ClientResponseDTO createClient(ClientCreateDTO clientCreateDTO) {
+    @Transactional
+    public ClientResponseDTO createClient(ClientCreateDTO clientCreateDTO) throws IllegalAccessException {
 
         if (clientRepository.existsByIdentificationAndStatusIsTrue(clientCreateDTO.getIdentification())) {
             throw new BadRequestException(messageService.getMessage("identification.already.exist"));
+        }
+
+        Optional<Client> clientDisabled = clientRepository.findByIdentificationAndStatusIsFalse(clientCreateDTO.getIdentification());
+
+        if(clientDisabled.isPresent()) {
+
+            ClientUpdateDTO clientUpdateDTO = new ClientUpdateDTO();
+            clientUpdateDTO.setStatus(true);
+            return updateClient(clientDisabled.get().getId(), clientUpdateDTO);
+
         }
 
         ModelMapper modelMapper = new ModelMapper();
@@ -110,9 +122,10 @@ public class ClientServiceImpl implements ClientService {
 
     }
 
+    @Transactional
     public ApiResponseDTO deleteClient(Long id) throws IllegalAccessException {
 
-        boolean clientExists = clientRepository.existsById(id);
+        boolean clientExists = clientRepository.existsByIdAndStatusIsTrue(id);
 
         if (!clientExists) {
             throw new NotFoundException(messageService.getMessage("register.not.found"));

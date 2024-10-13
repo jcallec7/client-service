@@ -20,7 +20,7 @@ public class ClientController {
     private final ClientService clientService;
 
     @PostMapping("/crear")
-    public ResponseEntity<ClientResponseDTO> createClient(@RequestBody @Valid ClientCreateDTO clientCreateDTO) {
+    public ResponseEntity<ClientResponseDTO> createClient(@RequestBody @Valid ClientCreateDTO clientCreateDTO) throws IllegalAccessException {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(clientService.createClient(clientCreateDTO));
 
