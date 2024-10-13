@@ -1,0 +1,20 @@
+server:
+  port: 7073
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:test
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+  messages:
+    basename: messages
+    encoding: UTF-8
+    fallback-to-system-locale: false
